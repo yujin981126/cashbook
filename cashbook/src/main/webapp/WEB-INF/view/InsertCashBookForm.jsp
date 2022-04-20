@@ -50,7 +50,7 @@
 			</td>
 		</tr>
 	</table>
-	<button type="submit">입력</button>
+	<button type="submit" class="btn btn-outline-secondary">입력</button>
 	</form>
 </div>
 </body>
