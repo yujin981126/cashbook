@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.text.html.HTMLDocument.HTMLReader.CharacterAction;
 
-import dao.CashbookDao;
+import dao.CashBookDao;
 
 @WebServlet("/CashBookListByMonthController")
 public class CashBookListByMonthController extends HttpServlet {
@@ -53,6 +53,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		int startBlank  = dayOFWeek -1;
 				
 		// 마지막 날짜는 자바 달력 api를 이용
+		
 		int endDay = firstDay.getActualMaximum(Calendar.DATE);// 마지막 날짜
 		
 		// startBlank와 endDay 합의 결과에 endBlank를 더해서 7의 배수로 만들기 
@@ -67,7 +68,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		
 		
 		// 2) 모델값(월별 가계부 리스트)을 반환하는 비지니스로직(모델) 호출
-		CashbookDao cashbookDao = new CashbookDao();
+		CashBookDao cashbookDao = new CashBookDao();
 		List<Map<String, Object>> list = cashbookDao.selectCashbookListByMonth(y, m);
 		/*
 		 달력 출력에 필요한 모델 값 + 데이터베이스에서 반환된 모델값

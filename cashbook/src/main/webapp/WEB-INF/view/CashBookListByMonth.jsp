@@ -33,8 +33,9 @@
    %>
    
    	<div class="text-center">
-   	<br>
+   		<br>
    		<h1><%=y%>년 <%=m%>월</h1>
+   		<br>
 	</div>
 
       <table class="table table-bordered">
@@ -64,18 +65,16 @@
             <td class="<%=c%>">
             	<%=i - startBlank%>
             	
-            	<a href="<%=request.getContextPath()%>/InsertCashBookController?y=<%=y%>&m=<%=m%>&d=<%=i-startBlank%>" class="btn btn-light float-right btn-sm">입력</a>
-                     
+            	<a href="<%=request.getContextPath()%>/InsertCashBookController?y=<%=y%>&m=<%=m%>&d=<%=i-startBlank%>" class="btn btn-outline-secondary float-right btn-sm">입력</a>
+                <hr>
             	<!-- 해당 날짜의 cashbook 목록 출력 -->
                 <div class="text-dark">
 		           <% for (Map map:list){
 		                if((Integer)map.get("day") == (i-startBlank)){ %>
 			            	<div>
-				            	<small>
-				                [<%=map.get("kind")%>]
-				                <%=map.get("cash")%>원
-				                <%=map.get("memo")%>
-				                </small>
+				            	<small><a href ="<%=request.getContextPath()%>/CashBookOneController?cashbookNo=<%=map.get("cashbookNo")%>" class="text-dark">
+				                [<%=map.get("kind")%>]<%=map.get("cash")%>원<%=map.get("memo")%>
+				                </a></small>
 			                </div>
 		                  <%}%>
 		              <%}%>
