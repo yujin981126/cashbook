@@ -32,15 +32,18 @@
        }
    %>
    
+   		
+
    	<div class="text-center">
    		<br>
    		<h1><%=y%>년 <%=m%>월</h1>
-   		<br>
 	</div>
-
+	<a href="<%=request.getContextPath()%>/TagController" class="btn btn-info float-right btn-sm">#Tag</a>
+	<br>
+	<br>
       <table class="table table-bordered">
          <thead>
-            <tr class="text-center">
+            <tr class="text-center table-info">
                <th class="text-danger">일</th>
                <th class="text-dark">월</th>
                <th class="text-dark">화</th>
@@ -65,7 +68,7 @@
             <td class="<%=c%>">
             	<%=i - startBlank%>
             	
-            	<a href="<%=request.getContextPath()%>/InsertCashBookController?y=<%=y%>&m=<%=m%>&d=<%=i-startBlank%>" class="btn btn-outline-secondary float-right btn-sm">입력</a>
+            	<a href="<%=request.getContextPath()%>/InsertCashBookController?y=<%=y%>&m=<%=m%>&d=<%=i-startBlank%>" class="btn btn-outline-info float-right btn-sm">입력</a>
                 <hr>
             	<!-- 해당 날짜의 cashbook 목록 출력 -->
                 <div class="text-dark">
