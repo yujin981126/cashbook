@@ -103,7 +103,7 @@ public class HashtagDao {
 	}
 	
 	// 날짜별 태그 사용 순위 메서드
-	public List<Map<String,Object>> selectDateTagRankList(String cashDate) {
+	public List<Map<String,Object>> selectDateTagRankList(String beginDate,String endDate) {
 		List<Map<String,Object>> list = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -116,7 +116,7 @@ public class HashtagDao {
 				FROM hashtag h
 				INNER JOIN cashbook c
 				ON h.cashbook_no = c.cashbook_no
-				WHERE c.cash_date = ?
+				WHERE c.cash_date BETWEEN STR_TO_DATE('2022-04-01','%Y-%m-%d')  AND STR_TO_DATE('2022-04-30','%Y-%m-%d')
 				GROUP BY tag)t
 			 */
 			Class.forName("org.mariadb.jdbc.Driver");
@@ -127,10 +127,11 @@ public class HashtagDao {
 					+ "				FROM hashtag h"
 					+ "				INNER JOIN cashbook c"
 					+ "				ON h.cashbook_no = c.cashbook_no"
-					+ "				WHERE c.cash_date = ?"
+					+ "				WHERE c.cash_date BETWEEN STR_TO_DATE(?,'%Y-%m-%d')  AND STR_TO_DATE(?,'%Y-%m-%d')"
 					+ "				GROUP BY tag)t";
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, cashDate);
+			stmt.setString(1, beginDate);
+			stmt.setString(2, endDate);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				Map<String, Object> map = new HashMap<>();

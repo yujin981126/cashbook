@@ -17,16 +17,20 @@ public class TagDateController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
 			// date 값 받아오기 
-			String date = request.getParameter("date");
-			System.out.println("date ->"+ date);
+			String beginDate = request.getParameter("beginDate");
+			System.out.println("beginDate ->"+ beginDate);
+			
+			String endDate = request.getParameter("endDate");
+			System.out.println("endDate ->"+ endDate);
 			
 			//HashtagDao 메서드 호출 
 			HashtagDao hashtagDao = new HashtagDao();
-			List<Map<String,Object>> list = hashtagDao.selectDateTagRankList(date);
+			List<Map<String,Object>> list = hashtagDao.selectDateTagRankList(beginDate,endDate);
 			
 			//리스트값 넘겨주기
 			request.setAttribute("list", list);
-			request.setAttribute("date", date);
+			request.setAttribute("date", beginDate);
+			request.setAttribute("date", endDate);
 			request.getRequestDispatcher("/WEB-INF/view/TagDateList.jsp").forward(request, response);
 	}
 
