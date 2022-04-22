@@ -16,7 +16,11 @@
 		<br>
 		<h1>TagDateList</h1>
 		</div>
-		<a href="<%=request.getContextPath()%>/TagController" class="btn btn-outline-info float-right">뒤로가기</a>
+		<div class="float-right">
+			<a href="#">[<%=session.getAttribute("sessionMemberId")%>]</a>님 반갑습니다. &nbsp;
+			<a href="<%=request.getContextPath()%>/LogoutController" class="btn btn-outline-info btn-sm">로그아웃</a>
+			</div>
+		<a href="<%=request.getContextPath()%>/TagController" class="btn btn-outline-info float-left">뒤로가기</a>
 		<br>
 		<br>
 		<% if(list.size() == 0) {%>

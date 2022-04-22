@@ -9,13 +9,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.HashtagDao;
 
 @WebServlet("/TagKindController")
 public class TagKindController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
+		// 똑같은 새션을 가져와서 
+		HttpSession session = request.getSession();
+		String sessionMemberId = (String)session.getAttribute("sessionMemberId");
+				
+		// 로그인이 되어 있는 상태
+		if(sessionMemberId == null) {
+				response.sendRedirect(request.getContextPath()+"/LoginController");
+				return;
+		}
 			// 인코딩 utf-8
 			request.setCharacterEncoding("utf-8");
 		

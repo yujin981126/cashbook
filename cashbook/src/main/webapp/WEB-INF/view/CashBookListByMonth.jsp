@@ -14,22 +14,23 @@
    List<Map<String, Object>> list = (List<Map<String, Object>>)request.getAttribute("list");
       
    int y = (Integer)request.getAttribute("y");
-      int m = (Integer)request.getAttribute("m");
-      int startBlank = (Integer)request.getAttribute("startBlank");
-      int endDay = (Integer)request.getAttribute("endDay");
-      int endBlank = (Integer)request.getAttribute("endBlank");
-      int totalTd = (Integer)request.getAttribute("totalTd");
-      //  디버깅 
-      System.out.println(list.size() + " list.size() CashBookListByMonth.jsp");
-      System.out.println(y + " y CashBookListByMonth.jsp");
-      System.out.println(m + " m CashBookListByMonth.jsp");
-      System.out.println(startBlank + "startBlank CashBookListByMonth.jsp");
-      System.out.println(endDay + "endDay CashBookListByMonth.jsp");
-      System.out.println(endBlank + " endBlank CashBookListByMonth.jsp");
-      System.out.println(totalTd + " totalTd CashBookListByMonth.jsp");
-       for(Map map : list) {
-         System.out.println(map.get("cashbookNo"));
-       }
+   int m = (Integer)request.getAttribute("m");
+   int startBlank = (Integer)request.getAttribute("startBlank");
+   int endDay = (Integer)request.getAttribute("endDay");
+   int endBlank = (Integer)request.getAttribute("endBlank");
+   int totalTd = (Integer)request.getAttribute("totalTd");
+   
+   //  디버깅 
+   System.out.println(list.size() + " list.size() CashBookListByMonth.jsp");
+   System.out.println(y + " y CashBookListByMonth.jsp");
+   System.out.println(m + " m CashBookListByMonth.jsp");
+   System.out.println(startBlank + "startBlank CashBookListByMonth.jsp");
+   System.out.println(endDay + "endDay CashBookListByMonth.jsp");
+   System.out.println(endBlank + " endBlank CashBookListByMonth.jsp");
+   System.out.println(totalTd + " totalTd CashBookListByMonth.jsp");
+   for(Map map : list) {
+   	System.out.println(map.get("cashbookNo"));
+   	}
    %>
    
    		
@@ -38,7 +39,13 @@
    		<br>
    		<h1><%=y%>년 <%=m%>월</h1>
 	</div>
-	<a href="<%=request.getContextPath()%>/TagController" class="btn btn-info float-right btn-sm">#Tag</a>
+	<div class="float-right">
+		<a href="<%=request.getContextPath()%>/SelectMemberOneController?id=<%=session.getAttribute("sessionMemberId")%>">[<%=session.getAttribute("sessionMemberId")%>]</a>님 반갑습니다. &nbsp;
+		<a href="<%=request.getContextPath()%>/LogoutController" class="btn btn-outline-info btn-sm">로그아웃</a>
+	</div>
+
+	
+	<a href="<%=request.getContextPath()%>/TagController" class="btn btn-info float-left btn-sm">#Tag</a>
 	<br>
 	<br>
       <table class="table table-bordered">

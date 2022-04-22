@@ -23,6 +23,10 @@
 	<h1>insertCashBookForm</h1>
 	<br>
 	</div>
+	<div class="float-right">
+		<a href="#">[<%=session.getAttribute("sessionMemberId")%>]</a>님 반갑습니다. &nbsp;
+		<a href="<%=request.getContextPath()%>/LogoutController" class="btn btn-outline-info btn-sm">로그아웃</a>
+	</div>
 	<form method="post" action="<%=request.getContextPath()%>/InsertCashBookController">
 	 <table class="table table-bordered">
 		<tr>

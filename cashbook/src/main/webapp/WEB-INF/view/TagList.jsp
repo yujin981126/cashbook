@@ -14,11 +14,19 @@
 	List<Map<String, Object>> list = (List<Map<String, Object>>)request.getAttribute("list");
 %>
 <div class="container">
-	<div class="text-center">
+	<div class=" text-center">
 		<br>
 		<h1>Tag(#) RANKING</h1>
-		<br>
 	</div>
+	<div class="row">
+		<div class="col-sm-12 text-right">
+			<a href="<%=request.getContextPath()%>/SelectMemberOneController">[<%=session.getAttribute("sessionMemberId")%>]</a>님 반갑습니다. &nbsp;
+			<a href="<%=request.getContextPath()%>/LogoutController" class="btn btn-outline-info btn-sm">로그아웃</a>
+			<a href="<%=request.getContextPath()%>/CashBookListByMonthController?y=<%=y%>&m=<%=m%>" class="btn btn-info float-left btn-sm">cashbook 이동하기</a>
+		</div>
+	</div>
+	
+	<br>
 	<div class="row">
 		<div class="col-sm-5">
 			<table class="table table-bordered">
@@ -75,9 +83,6 @@
 					</td>
 				</tr>
 			</table>
-			<div>
-				<a href="<%=request.getContextPath()%>/CashBookListByMonthController?y=<%=y%>&m=<%=m%>" class="btn btn-info float-right btn-sm">cashbook 이동하기</a>
-			</div>
 		</div>
 	</div>	 
 </div>
