@@ -20,7 +20,7 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12 text-right">
-			<a href="<%=request.getContextPath()%>/SelectMemberOneController">[<%=session.getAttribute("sessionMemberId")%>]</a>님 반갑습니다. &nbsp;
+			<a href="<%=request.getContextPath()%>/SelectMemberOneController?id=<%=session.getAttribute("sessionMemberId")%>">[<%=session.getAttribute("sessionMemberId")%>]</a>님 반갑습니다. &nbsp;
 			<a href="<%=request.getContextPath()%>/LogoutController" class="btn btn-outline-info btn-sm">로그아웃</a>
 			<a href="<%=request.getContextPath()%>/CashBookListByMonthController?y=<%=y%>&m=<%=m%>" class="btn btn-info float-left btn-sm">cashbook 이동하기</a>
 		</div>
