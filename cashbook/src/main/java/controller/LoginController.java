@@ -27,6 +27,7 @@ public class LoginController extends HttpServlet {
 		if(sessionMemberId != null) {
 			response.sendRedirect(request.getContextPath()+"/CashBookListByMonthController");
 			return;
+			
 		}
 		// 로그인 되어 있는 멤버면 리다이렉트
 		request.getRequestDispatcher("/WEB-INF/view/Login.jsp").forward(request, response);

@@ -19,16 +19,15 @@ import dao.CashBookDao;
 public class CashBookListByMonthController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// 똑같은 새션을 가져와서 
 		HttpSession session = request.getSession();
 		String sessionMemberId = (String)session.getAttribute("sessionMemberId");
-				
-		// 로그인이 되어 있는 상태
-		if(sessionMemberId == null) {
-				response.sendRedirect(request.getContextPath()+"/LoginController");
-				return;
-		}
 		
+		if(sessionMemberId == null) {
+			// 로그인 되지 않은 상태라면
+			response.sendRedirect(request.getContextPath()+"/LoginController");
+			return;
+			
+		}
 		
 		// 1) 월별 가계부 리스트 요청 분석
 		Calendar now = Calendar.getInstance();
@@ -82,7 +81,7 @@ public class CashBookListByMonthController extends HttpServlet {
 		
 		// 2) 모델값(월별 가계부 리스트)을 반환하는 비지니스로직(모델) 호출
 		CashBookDao cashbookDao = new CashBookDao();
-		List<Map<String, Object>> list = cashbookDao.selectCashbookListByMonth(y, m);
+		List<Map<String, Object>> list = cashbookDao.selectCashbookListByMonth(y, m, sessionMemberId);
 		/*
 		 달력 출력에 필요한 모델 값 + 데이터베이스에서 반환된 모델값
 		 */
@@ -97,5 +96,6 @@ public class CashBookListByMonthController extends HttpServlet {
 		// 3) 뷰 포워딩
 		request.getRequestDispatcher("/WEB-INF/view/CashBookListByMonth.jsp").forward(request, response);
 	}
+
 
 }

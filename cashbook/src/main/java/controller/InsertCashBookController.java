@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -20,11 +21,12 @@ public class InsertCashBookController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		// 똑같은 새션을 가져와서 
 		HttpSession session = request.getSession();
 		String sessionMemberId = (String)session.getAttribute("sessionMemberId");
-				
-		// 로그인이 되어 있는 상태
+						
+		// 로그인이 하지 않은 상태라면
 		if(sessionMemberId == null) {
 				response.sendRedirect(request.getContextPath()+"/LoginController");
 				return;
@@ -36,14 +38,28 @@ public class InsertCashBookController extends HttpServlet {
 		String d = request.getParameter("d");
 		String cashDate = y + "-" + m + "-" + d; // MariaDB에서 0을 자동으로 붙여준다 
 		
+		// 뒤로가기를 위한 년도와 월 정보 전달
+		Calendar now = Calendar.getInstance();
+		int year = now.get(Calendar.YEAR);
+		int month = now.get(Calendar.MONTH)+1;
+		
 		// 지역변수 cashDate 는 다른곳에서 사용 못하므로
 		request.setAttribute("cashDate", cashDate);
-		
+		request.setAttribute("year", year);
+		request.setAttribute("month", month);
 		request.getRequestDispatcher("/WEB-INF/view/InsertCashBookForm.jsp").forward(request, response);
 	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+		String sessionMemberId = (String)session.getAttribute("sessionMemberId");
+		if(sessionMemberId == null) {
+			// 로그인 되지 않은 상태라면
+			response.sendRedirect(request.getContextPath()+"/LoginController");
+			return;
+		}
 		
 		request.setCharacterEncoding("utf-8");
 		
@@ -58,12 +74,14 @@ public class InsertCashBookController extends HttpServlet {
 		System.out.println("kind InsertCashBookController dopost() : "+ kind);
 		System.out.println("cash InsertCashBookController dopost() : "+ cash);
 		System.out.println("memo InsertCashBookController dopost() : "+ memo);
+		System.out.println("MemberId InsertCashBookController dopost() : "+ sessionMemberId);
 		
 		CashBook cashbook = new CashBook();
 		cashbook.setCashDate(cashDate);
 		cashbook.setKind(kind);
 		cashbook.setCash(cash);
 		cashbook.setMemo(memo);
+		cashbook.setMemberId(sessionMemberId);
 		
 		
 		// memo 해시태그 
@@ -90,7 +108,7 @@ public class InsertCashBookController extends HttpServlet {
 		}
 		
 		CashBookDao cashbookDao = new CashBookDao();
-		cashbookDao.insertCashbook(cashbook, hashtag);
+		cashbookDao.insertCashbook(cashbook, hashtag, sessionMemberId);
 		
 		response.sendRedirect(request.getContextPath()+"/CashBookListByMonthController");
 	}

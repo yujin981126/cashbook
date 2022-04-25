@@ -62,7 +62,7 @@
 							<input type="radio" name="kind" value="수입" > 수입 
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="radio" name="kind" value="지출" > 지출
-							<button type="submit" class="btn btn-outline-info float-right">검색</button>
+							<button type="submit" class="btn btn-outline-info float-right btn-sm">검색</button>
 						</form>
 					</td>
 				</tr>
@@ -78,7 +78,7 @@
 					<td>
 						<form method="get" action="<%=request.getContextPath()%>/TagDateController">
 							<input type="date" name="beginDate"> ~ <input type="date" name="endDate">
-							<button type="submit" class="btn btn-outline-info float-right">검색</button>
+							<button type="submit" class="btn btn-outline-info float-right btn-sm">검색</button>
 						</form>
 					</td>
 				</tr>

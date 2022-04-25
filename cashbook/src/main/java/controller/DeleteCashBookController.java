@@ -21,13 +21,12 @@ public class DeleteCashBookController extends HttpServlet {
 		// 똑같은 새션을 가져와서 
 		HttpSession session = request.getSession();
 		String sessionMemberId = (String)session.getAttribute("sessionMemberId");
-				
-		// 로그인이 되어 있는 상태
+						
+		// 로그인이 하지 않은 상태라면
 		if(sessionMemberId == null) {
 				response.sendRedirect(request.getContextPath()+"/LoginController");
 				return;
-		}
-		
+				}
 		//cashbookNo 값 불러오기 
 		int cashbookNo = Integer.parseInt(request.getParameter("cashbookNo"));
 		System.out.println("cashbookNo : "+ cashbookNo);

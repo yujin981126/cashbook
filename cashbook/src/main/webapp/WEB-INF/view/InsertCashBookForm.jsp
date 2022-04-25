@@ -9,52 +9,50 @@
 </head>
 <body>
 <%
-	// 개별로 값을 하나하나 받기(?) 뷰에서는 그닥 적합하지 않을꺼 같다
-	/*
-	String y = request.getParameter("y");
-	String m = request.getParameter("m");
-	String d = request.getParameter("d");
-	=y + "-" + m + "-" + d" 
-	*/
+	int year = (Integer)request.getAttribute("year");
+	int month = (Integer)request.getAttribute("month");
 %>
 <div class="container">
 	<div class="text-center">
 	<br>
 	<h1>insertCashBookForm</h1>
-	<br>
 	</div>
+	
 	<div class="float-right">
 		<a href="#">[<%=session.getAttribute("sessionMemberId")%>]</a>님 반갑습니다. &nbsp;
 		<a href="<%=request.getContextPath()%>/LogoutController" class="btn btn-outline-info btn-sm">로그아웃</a>
 	</div>
+	<a href="<%=request.getContextPath()%>/CashBookListByMonthController?y=<%=year%>&m=<%=month%>" class="btn btn-info float-left btn-sm">뒤로가기</a>
+		<br><br>
+	
 	<form method="post" action="<%=request.getContextPath()%>/InsertCashBookController">
 	 <table class="table table-bordered">
 		<tr>
-			<td class="text-center">DAY</td>
+			<td class="text-center table-info">DAY</td>
 			<td>
 				<input type="text" name="cashDate" value="<%=(String)request.getAttribute("cashDate")%>" readonly="readonly">
 			</td>
 		</tr>
 		<tr>
-			<td class="text-center">KIND</td>
+			<td class="text-center table-info">KIND</td>
 			<td>
 				<input type="radio" name="kind" value="수입"> 수입
 				<input type="radio" name="kind" value="지출"> 지출
 			</td>
 		</tr>
 		<tr>
-            <td class="text-center">CASH</td>
+            <td class="text-center table-info">CASH</td>
             <td><input type="number" name="cash">원</td> 
          </tr>
 		
 		<tr>
-			<td class="text-center">MEMO</td>
+			<td class="text-center table-info">MEMO</td>
 			<td>
 				<textarea rows="4" cols="50" name="memo"></textarea>
 			</td>
 		</tr>
 	</table>
-	<button type="submit" class="btn btn-outline-secondary">입력</button>
+	<button type="submit" class="btn btn-info float-right">입력</button>
 	</form>
 </div>
 </body>

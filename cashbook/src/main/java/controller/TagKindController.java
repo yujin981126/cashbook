@@ -20,7 +20,7 @@ public class TagKindController extends HttpServlet {
 		HttpSession session = request.getSession();
 		String sessionMemberId = (String)session.getAttribute("sessionMemberId");
 				
-		// 로그인이 되어 있는 상태
+		// 로그인이 하지 않은 상태라면
 		if(sessionMemberId == null) {
 				response.sendRedirect(request.getContextPath()+"/LoginController");
 				return;
