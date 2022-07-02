@@ -10,7 +10,9 @@
 	<div class="container">
 		<div class="text-center">
 		<br>
-		<h1>회원 가입</h1>
+		<br>
+		<h1>📅 CASHBOOK</h1>
+			<br>
 		</div>
 		<form method="post" action="<%=request.getContextPath()%>/InsertMemberController" >
 			<table class="table table-bordered">

@@ -6,24 +6,61 @@
 <meta charset="UTF-8">
 <title>MemberOne</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<style>
+ul {
+	width: 100%;
+	float: left;
+}
+
+.id {
+	flex-grow: 1;
+	position: relative;
+}
+
+.session {
+	position: absolute;
+	right: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #000000;
+}
+</style>
 </head>
 <body>
 <%
-	int y = (Integer)request.getAttribute("y");
-	int m = (Integer)request.getAttribute("m");
+	Calendar now = Calendar.getInstance();
+	int y = now.get(Calendar.YEAR);
+	int m = now.get(Calendar.MONTH) + 1;
+	
 	List<Map<String, Object>> list = (List<Map<String, Object>>)request.getAttribute("list");
 %>
 <div class="container">
-	<div class="text-center">
-	<br>
-	<h1>MemberOne</h1>
-	</div>
-	<div class="float-right">
+<br>
+<h1>📅 CASHBOOK</h1><br>
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" href="<%=request.getContextPath()%>/CashBookListByMonthController?y=<%=y%>&m=<%=m%>">Calender</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="<%=request.getContextPath()%>/TagController">#Hash_Tag</a>
+  </li>
+    <li class="nav-item">
+    <a class="nav-link" href="<%=request.getContextPath()%>/TagSearchController">Search</a>
+  </li>
+    <li class="form-inline my-lg-0 id">
+    <div class="session">
 		<a href="<%=request.getContextPath()%>/SelectMemberOneController?id=<%=session.getAttribute("sessionMemberId")%>">[<%=session.getAttribute("sessionMemberId")%>]</a>님 반갑습니다. &nbsp;
 		<a href="<%=request.getContextPath()%>/LogoutController" class="btn btn-outline-info btn-sm">로그아웃</a>
 	</div>
-	<a href="<%=request.getContextPath()%>/CashBookListByMonthController" class="btn btn-outline-info float-left btn-sm">뒤로가기</a>
-	<br>	<br>
+	</li>
+</ul>
+	<br><br>
+	<div class="text-center">
+			<font size="6em" style="font-weight: 500">나의정보</font>
+		</div>
+		<br>
 	<table class="table table-bordered">
 		<%
 			for(Map<String, Object> map : list) {
@@ -39,7 +76,7 @@
 		<% } %>
 	</table>
 	<div class="float-right">
-		<a href="<%=request.getContextPath()%>/UpdateMemberPwController" class="btn btn-info btn-sm">패스워드수정</a>
+		<a href="<%=request.getContextPath()%>/UpdateMemberPwController" class="btn btn-info btn-sm">PW수정</a>
 		<a href="<%=request.getContextPath()%>/DeleteMemberController" class="btn btn-info btn-sm">회원탈퇴</a>
 	</div>
 	</div>

@@ -25,12 +25,14 @@ public class HashtagDao {
 				GROUP BY tag) t
 			 */
 			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
-			String sql = "SELECT t.tag, t.cnt, RANK() over(ORDER BY t.cnt DESC) rank"
-					+ "				FROM"
-					+ "				(SELECT tag, COUNT(*) cnt"
-					+ "				FROM hashtag"
-					+ "				GROUP BY tag) t";
+			conn = DriverManager.getConnection("jdbc:mariadb://3.39.153.13:3306/cashbook","root","mariadb1234");
+			String sql = "SELECT t.tag, t.cnt, RANK() over(ORDER BY t.cnt DESC) rank "
+					+ "									FROM "
+					+ "					 			(SELECT tag, COUNT(*) cnt "
+					+ "									FROM hashtag "
+					+ "									GROUP BY tag "
+					+ "									LIMIT 0,10 ) t "
+					+ "									WHERE cnt > 10 ";
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -53,41 +55,36 @@ public class HashtagDao {
 	}
 	
 	// kind별 태그 사용 순위 메서드
-	public List<Map<String,Object>> selectKindTagRankList(String kind) {
+	public List<Map<String,Object>> selectTagRankList(String kind,String beginDate,String endDate) {
 		List<Map<String,Object>> list = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			/*
-			 	SELECT t.kind, t.tag, t.cnt, RANK() over(ORDER BY t.cnt DESC) ranking
-				FROM 
-				(SELECT c.kind, h.tag, COUNT(*) cnt
-				FROM hashtag h
-				INNER JOIN cashbook c
-				ON h.cashbook_no = c.cashbook_no
-				WHERE c.kind = ?
-				GROUP BY tag)t
-			 */
+
 			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
-			String sql = "SELECT t.kind, t.tag, t.cnt, RANK() over(ORDER BY t.cnt DESC) rank"
-					+ "				FROM "
-					+ "				(SELECT c.kind, h.tag, COUNT(*) cnt"
-					+ "				FROM hashtag h"
-					+ "				INNER JOIN cashbook c"
-					+ "				ON h.cashbook_no = c.cashbook_no"
-					+ "				WHERE c.kind = ? "
-					+ "				GROUP BY tag)t";
+			conn = DriverManager.getConnection("jdbc:mariadb://3.39.153.13:3306/cashbook","root","mariadb1234");
+			String sql = "SELECT t.kind, t.tag,t.cash, t.cnt, RANK() over(ORDER BY t.cnt DESC) rank,t.cash_date cashDate"
+					+ "								FROM "
+					+ "								(SELECT c.kind,c.cash, h.tag, COUNT(*) cnt,c.cash_date"
+					+ "								FROM hashtag h "
+					+ "							INNER JOIN cashbook c "
+					+ "								ON h.cashbook_no = c.cashbook_no"
+					+ "								WHERE c.kind like ?  AND c.cash_date BETWEEN STR_TO_DATE(?,'%Y-%m-%d')  AND STR_TO_DATE(?,'%Y-%m-%d') "
+					+ "								GROUP BY tag)t";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, kind);
+			stmt.setString(2, beginDate);
+			stmt.setString(3, endDate);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				Map<String, Object> map = new HashMap<>();
 				map.put("kind", rs.getString("kind"));
 				map.put("tag", rs.getString("tag"));
 				map.put("cnt", rs.getInt("t.cnt"));
+				map.put("cash", rs.getInt("cash"));
 				map.put("rank", rs.getInt("rank"));
+				map.put("cashDate", rs.getString("cashDate"));
 				list.add(map);
 			}
 		} catch (Exception e) {
@@ -102,56 +99,6 @@ public class HashtagDao {
 		return list;
 	}
 	
-	// 날짜별 태그 사용 순위 메서드
-	public List<Map<String,Object>> selectDateTagRankList(String beginDate,String endDate) {
-		List<Map<String,Object>> list = new ArrayList<>();
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		try {
-			/*
-			 	SELECT t.cash_date, t.tag, t.cnt, RANK() over(ORDER BY t.cnt DESC) ranking
-				FROM 
-				(SELECT c.cash_date, h.tag, COUNT(*) cnt
-				FROM hashtag h
-				INNER JOIN cashbook c
-				ON h.cashbook_no = c.cashbook_no
-				WHERE c.cash_date BETWEEN STR_TO_DATE('2022-04-01','%Y-%m-%d')  AND STR_TO_DATE('2022-04-30','%Y-%m-%d')
-				GROUP BY tag)t
-			 */
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
-			String sql = "SELECT t.cash_date cashDate, t.tag, t.cnt, RANK() over(ORDER BY t.cnt DESC) rank"
-					+ "				FROM"
-					+ "				(SELECT c.cash_date, h.tag, COUNT(*) cnt"
-					+ "				FROM hashtag h"
-					+ "				INNER JOIN cashbook c"
-					+ "				ON h.cashbook_no = c.cashbook_no"
-					+ "				WHERE c.cash_date BETWEEN STR_TO_DATE(?,'%Y-%m-%d')  AND STR_TO_DATE(?,'%Y-%m-%d')"
-					+ "				GROUP BY tag)t";
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, beginDate);
-			stmt.setString(2, endDate);
-			rs = stmt.executeQuery();
-			while(rs.next()) {
-				Map<String, Object> map = new HashMap<>();
-				map.put("cashDate", rs.getString("cashDate"));
-				map.put("tag", rs.getString("tag"));
-				map.put("cnt", rs.getInt("t.cnt"));
-				map.put("rank", rs.getInt("rank"));
-				list.add(map);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return list;
-	}
 
 	// 태그 상세보기 메서드 
 		public List<Map<String,Object>> selectTagOneList(String tag) {
@@ -169,7 +116,7 @@ public class HashtagDao {
 				ORDER BY c.cash_date desc
 				 */
 				Class.forName("org.mariadb.jdbc.Driver");
-				conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+				conn = DriverManager.getConnection("jdbc:mariadb://3.39.153.13:3306/cashbook","root","mariadb1234");
 				String sql = "SELECT h.tag tag,c.cash_date cashDate,c.kind kind, c.cash cash ,c.memo memo"
 						+ "				FROM hashtag h"
 						+ "				INNER JOIN cashbook c"

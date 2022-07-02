@@ -33,7 +33,7 @@ public class CashBookDao {
 				+ "		 WHERE cashbook_no=?";
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+			conn = DriverManager.getConnection("jdbc:mariadb://3.39.153.13:3306/cashbook","root","mariadb1234");
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, cashbookNo);
 			rs = stmt.executeQuery();
@@ -68,7 +68,7 @@ public class CashBookDao {
 		ResultSet rs = null;
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+			conn = DriverManager.getConnection("jdbc:mariadb://3.39.153.13:3306/cashbook","root","mariadb1234");
 			conn.setAutoCommit(false); // 자동커밋을 해제
 			
 			String sql = "INSERT INTO cashbook(cash_date,kind,cash,memo,update_date,create_date,member_id)"
@@ -114,7 +114,6 @@ public class CashBookDao {
 			}
 		}
 	}
-	
 	// 달력의 데이터를 달마다 보여주는 메서드 
 	public List<Map<String, Object>> selectCashbookListByMonth(int y, int m, String memberId) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
@@ -143,7 +142,7 @@ public class CashBookDao {
 				+ "		 ORDER BY DAY(cash_date) ASC, kind ASC";
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+			conn = DriverManager.getConnection("jdbc:mariadb://3.39.153.13:3306/cashbook","root","mariadb1234");
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, y);
 			stmt.setInt(2, m);
@@ -182,7 +181,7 @@ public class CashBookDao {
 		String CashSql = "DELETE FROM cashbook WHERE cashbook_no = ?";
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+			conn = DriverManager.getConnection("jdbc:mariadb://3.39.153.13:3306/cashbook","root","mariadb1234");
 			conn.setAutoCommit(false); // 자동커밋을 해제
 			
 			// hashtag 먼저 삭제 
@@ -206,5 +205,40 @@ public class CashBookDao {
 			e.printStackTrace();
 			}
 		}
+	}
+	
+	// 년도와 달에 돈 합계를 구해주는 메서드 
+	public int totalCash(int year, int month, String kind) {
+		int totalCash = 0;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT sum(cash) cash "
+				+ "FROM cashbook "
+				+ "WHERE YEAR(cash_date) = ? and MONTH(cash_date) = ? AND kind= ? ";
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mariadb://3.39.153.13:3306/cashbook","root","mariadb1234");
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, year);
+			stmt.setInt(2, month);
+			stmt.setString(3, kind);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				totalCash = rs.getInt("cash");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return totalCash;
 	}
 }

@@ -29,18 +29,21 @@ public class TagController extends HttpServlet {
 		
 		//HashtagDao 메서드 호출 
 		HashtagDao hashtagDao = new HashtagDao();
-		List<Map<String,Object>> list = hashtagDao.selectTagRankList();
+		List<Map<String,Object>> taglist = hashtagDao.selectTagRankList();
+
+		// date 값 받아오기 
+		String tag = request.getParameter("tag");
+		System.out.println("tag ->"+ tag);
 		
+		//HashtagDao 메서드 호출 
+		List<Map<String,Object>> list = hashtagDao.selectTagOneList(tag);
 		
-		// CASHBOOK으로 돌아가기 위한 위한 년도와 월 정보 전달
-		Calendar now = Calendar.getInstance();
-		int y = now.get(Calendar.YEAR);
-		int m = now.get(Calendar.MONTH)+1;
-				
 		//리스트값 넘겨주기
+		request.setAttribute("taglist", taglist);
 		request.setAttribute("list", list);
-		request.setAttribute("y", y);
-		request.setAttribute("m", m);
+		request.setAttribute("tag", tag);
+		
 		request.getRequestDispatcher("/WEB-INF/view/TagList.jsp").forward(request, response);
 	}
+
 }

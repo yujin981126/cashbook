@@ -20,7 +20,7 @@ public class MemberDao {
 		PreparedStatement stmt = null;
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+			conn = DriverManager.getConnection("jdbc:mariadb://3.39.153.13:3306/cashbook","root","mariadb1234");
 	
 			String sql = "insert INTO member(member_id,member_pw,create_date) VALUE(?,PASSWORD(?),NOW());";
 			
@@ -51,7 +51,7 @@ public class MemberDao {
 		PreparedStatement stmt = null;
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+			conn = DriverManager.getConnection("jdbc:mariadb://3.39.153.13:3306/cashbook","root","mariadb1234");
 			conn.setAutoCommit(false);
 			
 			String sql = "UPDATE member SET member_pw = PASSWORD(?) "
@@ -83,7 +83,7 @@ public class MemberDao {
 		PreparedStatement stmt = null;
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+			conn = DriverManager.getConnection("jdbc:mariadb://3.39.153.13:3306/cashbook","root","mariadb1234");
 			conn.setAutoCommit(false);
 			
 			String sql1 = "DELETE FROM cashbook WHERE member_id=? ";
@@ -121,7 +121,7 @@ public class MemberDao {
 			WHERE member_id = ?
 			 */
 			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+			conn = DriverManager.getConnection("jdbc:mariadb://3.39.153.13:3306/cashbook","root","mariadb1234");
 			String sql = "SELECT member_id memberId , member_pw memberPw,create_date createDate"
 					+ " FROM member"
 					+ " WHERE member_id = ?";
@@ -154,10 +154,10 @@ public class MemberDao {
 		      PreparedStatement stmt = null;
 		      ResultSet rs = null;
 		      String sql = "SELECT member_id memberId FROM member "
-		      		+ " WHERE member_id=? AND member_pw=PASSWORD(?)";
+		      		+ " WHERE member_id= ? AND member_pw = PASSWORD(?)";
 		      try {
 		         Class.forName("org.mariadb.jdbc.Driver");
-		         conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+		         conn = DriverManager.getConnection("jdbc:mariadb://3.39.153.13:3306/cashbook","root","mariadb1234");
 		         stmt = conn.prepareStatement(sql);
 		         stmt.setString(1, member.getMemberId());
 		         stmt.setString(2, member.getMemberPw());

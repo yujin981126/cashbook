@@ -9,9 +9,9 @@
 </head>
 <body>
 <div class="container">
-<div class="text-center text-info">
-	<br>
-	<h1>Login</h1>
+<div class="text-center">
+	<br><br><br><br><br><br>
+	<h1>📅 CASHBOOK</h1>
 </div>
 	<br>
 	<div class="row">
@@ -22,10 +22,10 @@
 		<div class="col-sm-4">
 			<div class="text-center">
 				<form method="post" action="<%=request.getContextPath()%>/LoginController">
-					<input type="text" name="memberId" placeholder="USER ID" class="form-control text-center">
+					<input type="text" name="memberId" placeholder="USER ID" class="form-control text-center" value="guest"> 
 					<br>
 					
-				<input type="password" name="memberPw" placeholder="PASSWORD" class="form-control text-center" >
+				<input type="password" name="memberPw" placeholder="PASSWORD" class="form-control text-center" value="1234">
 				<br>
 				<button type="submit" class="btn btn-info text-White btn-block">Log In</button>
 				<hr>
