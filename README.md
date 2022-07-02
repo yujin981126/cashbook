@@ -22,4 +22,4 @@
 
 ## Preview
 
-![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/81568681/177000579-a0c94a1b-bf83-4296-a987-38de90b6609e.gif)
+![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/81568681/177001098-a51cb60a-deec-4569-b849-7d3eb294c5ab.gif)
