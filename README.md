@@ -1,7 +1,4 @@
 # cashbook
-모델2 방식의 가계부 사이트
-
-# cashbook
 
 [cashbook 바로가기](http://3.39.153.13/cashbook/LoginController) (+ 개인 프로젝트)<br>
 모델2(MVC) 방식을 이용한 회원별로 해시태그를 사용하여 가계부를 작성할 수 있는 기능을 구현한 CRUD기반 웹 페이지
